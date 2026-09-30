@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>可转债策略研究平台 · 转债估值分析</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">CB</span>可转债策略研究平台</div>
+  <nav class="tabs">
+    <button class="tab active" type="button" onclick="location.href='index.html'">转债估值分析</button>
+    <button class="tab" type="button" onclick="location.href='backtest.html'">低价策略回测</button>
+    <button class="tab" type="button" onclick="location.href='rotations.html'">轮动明细</button>
+  </nav>
+  <div class="meta" id="metaInfo">数据加载中…</div>
+</header>
+
+<section class="controls">
+  <div class="range-picker">
+    <label for="startDate">时间区间</label>
+    <input type="date" id="startDate" min="2020-01-01">
+    <span>至</span>
+    <input type="date" id="endDate" min="2020-01-01">
+    <button class="preset" type="button" data-days="92">近3月</button>
+    <button class="preset" type="button" data-days="183">近半年</button>
+    <button class="preset" type="button" data-days="365">近1年</button>
+    <button class="preset" type="button" data-days="730">近2年</button>
+    <button class="preset" type="button" data-days="1095">近3年</button>
+    <button class="preset" type="button" data-days="0">全部</button>
+  </div>
+  <div class="hint">区间选择作用于 <b>图1 / 图3 / 图4</b>；图2 / 图5 / 图6 为最新交易日截面（<b id="snapDate">—</b>）</div>
+</section>
+
+<main class="chart-grid" id="chartGrid">
+
+  <section class="card">
+    <header>
+      <h2><i>图 1</i>转债市场持续发展，存量标的日益丰富</h2>
+      <p class="sub">月末存续余额（柱，左轴，亿元）与存续转债数量（线，右轴，只）</p>
+    </header>
+    <div class="chart" id="chart1"></div>
+    <footer class="note">存续券池依据上市日期与退市日期逐月末重建；历史月末余额以发行规模近似为主（真实余额抽样观测仅覆盖少数个券，近似口径未体现转股/回售缩额，余额读数系统性偏高），末点为最新交易日精确余额。</footer>
+  </section>
+
+  <section class="card">
+    <header>
+      <h2><i>图 2</i>转债价格分布较为分散，低价券具备一定选券空间</h2>
+      <p class="sub" id="chart2Sub">最新交易日存续转债收盘价分布</p>
+    </header>
+    <div class="chart" id="chart2"></div>
+    <footer class="note">统计口径：最新交易日正常交易（有收盘价）的存续转债；柱顶数字为数量，占比见悬浮提示。</footer>
+  </section>
+
+  <section class="card">
+    <header>
+      <h2><i>图 3</i>转债价格中枢动态变化，低价机会具有时变特征</h2>
+      <p class="sub">存续且正常交易转债收盘价的 P25 / P50 / P75（日频）</p>
+    </header>
+    <div class="chart" id="chart3"></div>
+    <footer class="note">每日基于实际存续且正常交易的转债计算收盘价分位数；P50（红）为全市场价格中枢。</footer>
+  </section>
+
+  <section class="card">
+    <header>
+      <h2><i>图 4</i>转股溢价率中枢周期波动，转债估值具有明显时变性</h2>
+      <p class="sub">存续且正常交易转债转股溢价率的 P25 / P50 / P75（日频）</p>
+    </header>
+    <div class="chart" id="chart4"></div>
+    <footer class="note conclusion">转债估值中枢呈现较为明显的周期波动特征。转股溢价率随权益市场表现、转债供需关系及个券结构变化而动态调整，不同市场阶段的估值环境差异较大，策略表现宜结合所处估值周期进行观察。</footer>
+  </section>
+
+  <section class="card">
+    <header>
+      <h2><i>图 5</i>价格相近不代表估值相近，低价券内部仍存在明显分化</h2>
+      <p class="sub">最新截面：收盘价 × 转股溢价率（每个散点为一只存续转债）</p>
+    </header>
+    <div class="chart" id="chart5"></div>
+    <footer class="note">≤110元个券以主红显示，暖米色底纹标示低价区域；未绘制拟合线，以保留横截面离散特征。少数 iFinD 缺失个券的溢价率/转股价值由 AKShare 东财快照补齐（估值口径为相邻交易日盘中值）。</footer>
+  </section>
+
+  <section class="card">
+    <header>
+      <h2><i>图 6</i>低价并非低风险，债性收益分化提供策略增强空间</h2>
+      <p class="sub">最新截面：收盘价 × 到期收益率YTM（每个散点为一只存续转债）</p>
+    </header>
+    <div class="chart" id="chart6"></div>
+    <footer class="note">YTM ≥ 5% 的个券以珊瑚橙描边提示信用风险核查（≥8% 同时标注简称）：高YTM可能来自信用风险溢价而非低估，需结合信用评级、剩余期限与剩余规模判断，避免把所有高YTM直接视为机会。YTM纵轴按主体分布截尾展示，个别极端负YTM（高价临到期券，债性意义微弱）未在图内呈现。</footer>
+  </section>
+
+</main>
+
+<footer class="pagefoot">
+  数据来源：交接本地数据（2020-01-01 ~ 2026-09-11）、同花顺 iFinD（截至 <span class="snap">—</span>）及 AKShare/东方财富公开数据（图4溢价率历史全样本、部分截面指标补齐）<br>
+  本平台仅用于策略研究，不构成任何投资建议；公开数据仅供研究参考，接口可能因上游网站变化而失效
+</footer>
+
+<script src="assets/echarts.min.js"></script>
+<script src="js/modules/valuation.js"></script>
+<script src="js/app.js"></script>
+<script src="data/snapshot_data.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>可转债策略研究平台 · 低价策略回测</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bt-body">
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">CB</span>可转债策略研究平台</div>
+  <nav class="tabs">
+    <a class="tab" href="index.html">转债估值分析</a>
+    <a class="tab active" href="backtest.html">低价策略回测</a>
+    <a class="tab" href="rotations.html">轮动明细</a>
+  </nav>
+  <div class="meta" id="metaInfo">数据加载中…</div>
+</header>
+
+<section class="controls bt-controls">
+  <div class="range-picker">
+    <label for="btStart"><b>回测区间</b></label>
+    <input type="date" id="btStart" min="2020-01-01" max="2026-09-11" value="2020-01-01">
+    <span>至</span>
+    <input type="date" id="btEnd" min="2020-01-01" max="2026-09-11" value="2026-09-11">
+  </div>
+  <div class="btn-group">
+    <button class="preset" type="button" data-years="1">近1年</button>
+    <button class="preset" type="button" data-years="3">近3年</button>
+    <button class="preset" type="button" data-years="5">近5年</button>
+    <button class="preset active" type="button" data-years="0">全部</button>
+  </div>
+  <button class="run-btn" id="runBtn" type="button">运行回测</button>
+</section>
+
+<main class="bt-layout">
+
+  <aside class="pool-panel">
+    <h3 class="pool-title">券池筛选</h3>
+    <label class="all-market" id="allMarket">
+      <input type="radio" name="poolmode" id="allMarketRadio" checked>
+      <span class="dot"></span>全市场
+    </label>
+    <input type="text" class="ind-search" id="indSearch" placeholder="搜索行业……" autocomplete="off">
+    <div class="ind-list" id="indList">
+      <div class="ind-loading">行业数据加载中…</div>
+    </div>
+    <div class="pool-status" id="poolStatus">当前券池：全市场</div>
+  </aside>
+
+  <section class="bt-result">
+    <div class="card chart-card">
+      <header>
+        <h2><i>低价策略</i>回测表现</h2>
+        <p class="sub">低价策略 vs 基准指数（中证转债）· 累计收益率（%）· <span id="btRangeLabel">—</span></p>
+      </header>
+      <div class="chart" id="btChart"></div>
+      <footer class="note">策略规则（后台预设）：每 5 个交易日收盘生成信号、T+1 开盘调仓，等权持有收盘价最低的 10 只转债；仅纳入收盘价＞90 元、评级≥A+、剩余期限＞90 天、近 5 日成交额＞5000 万元的个券，剔除赎回决定已生效与最后交易日后个券；历史正股风险状态缺失按简化口径通过；手续费与滑点为 0。</footer>
+    </div>
+
+    <div class="card metrics-card">
+      <header>
+        <h2><i>关键指标</i>收益表现 与 风险表现</h2>
+      </header>
+      <div class="metrics-grid">
+        <div class="metric"><span class="m-name">累计收益率</span><span class="m-val pos" id="mCum">—</span></div>
+        <div class="metric"><span class="m-name">年化收益率</span><span class="m-val pos" id="mAnn">—</span></div>
+        <div class="metric"><span class="m-name">超额收益率</span><span class="m-val excess" id="mExc">—</span></div>
+        <div class="metric"><span class="m-name">最大回撤</span><span class="m-val" id="mMdd">—</span></div>
+        <div class="metric"><span class="m-name">夏普比率</span><span class="m-val" id="mSharpe">—</span></div>
+        <div class="metric"><span class="m-name">年化波动率</span><span class="m-val" id="mVol">—</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pagefoot">
+  数据来源：可转债低价策略回测交接包（2020-01-01 ~ 2026-09-11，含 warmup 前置行情与退出事件）、申万一级行业分类（AKShare 公开数据）<br>
+  本平台仅用于策略研究，不构成任何投资建议；历史回测不代表未来表现
+</footer>
+
+<script src="assets/echarts.min.js"></script>
+<script src="js/bt_engine.js"></script>
+<script src="js/backtest.js"></script>
+<script src="data/snapshot_data.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>可转债策略研究平台 · 轮动明细</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bt-body">
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">CB</span>可转债策略研究平台</div>
+  <nav class="tabs">
+    <a class="tab" href="index.html">转债估值分析</a>
+    <a class="tab" href="backtest.html">低价策略回测</a>
+    <a class="tab active" href="rotations.html">轮动明细</a>
+  </nav>
+  <div class="meta" id="metaInfo">数据加载中…</div>
+</header>
+
+<section class="controls rot-controls">
+  <div class="range-picker">
+    <label for="rotStart"><b>轮动日期</b></label>
+    <input type="date" id="rotStart" min="2020-01-01" max="2026-09-11" value="2020-01-01">
+    <span>至</span>
+    <input type="date" id="rotEnd" min="2020-01-01" max="2026-09-11" value="2026-09-11">
+  </div>
+  <div class="btn-group">
+    <button class="preset" type="button" data-days="7">近1周</button>
+    <button class="preset" type="button" data-days="30">近1月</button>
+    <button class="preset" type="button" data-days="91">近3月</button>
+    <button class="preset" type="button" data-days="ytd">今年以来</button>
+    <button class="preset active" type="button" data-days="0">全部</button>
+  </div>
+  <input type="text" class="rot-search" id="rotSearch" placeholder="搜索个券代码 / 名称……" autocomplete="off">
+  <div class="btn-group">
+    <button class="preset view-btn active" type="button" data-view="group" id="viewGroupBtn">按轮动分组</button>
+    <button class="preset view-btn" type="button" data-view="table" id="viewTableBtn">全部表格</button>
+    <button class="preset" type="button" id="orderBtn" title="切换轮动排序">日期倒序</button>
+  </div>
+  <button class="run-btn" id="shareBtn" type="button">生成分享链接</button>
+</section>
+
+<div class="snap-banner" id="snapBanner" style="display:none"></div>
+
+<main class="rot-main">
+  <div class="card rot-summary" id="rotSummary"></div>
+  <div id="rotGroups" class="rot-groups"></div>
+  <div id="rotTableWrap" class="card rot-tablewrap" style="display:none"></div>
+  <div class="card holding-card" id="holdingCard" style="display:none"></div>
+</main>
+
+<footer class="pagefoot">
+  数据来源：可转债低价策略回测交接包（2020-01-01 ~ 2026-09-11，含 warmup 前置行情与退出事件）<br>
+  收益口径：调出个券收益 = 调入至调出期间的持有收益（T+1 开盘成交价）；持有中个券按最近有效收盘价估值；收益贡献 = 个券盈亏 / 当次调仓前组合总值<br>
+  本平台仅用于策略研究，不构成任何投资建议；历史回测不代表未来表现
+</footer>
+
+<script src="js/rotations.js"></script>
+<script src="data/snapshot_data.js"></script>
+</body>
+</html>
